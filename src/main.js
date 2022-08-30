@@ -9,7 +9,7 @@ const testBuy = async() => {
     //RPC Provider
     const provider = new AlchemyProvider("goerli", process.env.ETH_ALCHEMY_API_KEY); //FIXME update link provider from package. NPM INSTALL will fail: eth-goerli.g.alchemyapi.io/v2/ <- UPDATE LINK PROVIDER
   
-    const walletSigner = await new ethers.Wallet( //This wallet it's geted by metamask 
+    const walletSigner = await new ethers.Wallet( //This wallet it's gotten by metamask 
         process.env.SIGNER_PRIVATE_KEY,
         provider
       );
