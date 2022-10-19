@@ -8,7 +8,7 @@ const testBuy = async() => {
 
     //RPC Provider
     const provider = new AlchemyProvider("goerli", process.env.ETH_ALCHEMY_API_KEY); //FIXME update link provider from package. NPM INSTALL will fail: eth-goerli.g.alchemyapi.io/v2/ <- UPDATE LINK PROVIDER
-  
+
     const walletSigner = await new ethers.Wallet( //This wallet it's gotten by metamask 
         process.env.SIGNER_PRIVATE_KEY,
         provider
@@ -23,8 +23,11 @@ const testBuy = async() => {
       ];
 
       const tokenAbi = [
-        "function approve(address spender, uint256 amount) public " //This function allows the marketplace contract to process user token payment
+        "function approve(address spender, uint256 amount) public ", //This function allows the marketplace contract to process user token payment
+        "function balanceOf(address account) public"
       ]
+
+      const clientAddress = "0x1AF24ce9E04104c0A6d5591434c760AB2514f3e3"
 
       //The Market contract has 3 products loaded: 
       // ID:0 name:"Test Product 1" price: 500 NST
@@ -41,6 +44,7 @@ const testBuy = async() => {
       const marketContract = await new ethers.Contract(marketAddress, marketAbi, walletSigner);
 
       //FUNCTIONS CALLED BY CLIENT IN UI
+      await ensTokenContract.balanceOf(clientAddress);
       await ensTokenContract.approve( marketAddress, productPriceExample ); //This function is called by the client. Allows the token payment
       await marketContract.buyProduct(0); //This fuctions is called by client. Receive only the product id for purchase. The client should have the product price as minimum in their balance
 
